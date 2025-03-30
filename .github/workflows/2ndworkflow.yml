@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3  # Use latest version
         
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
@@ -22,10 +22,10 @@ jobs:
       - name: Terraform apply to create AMI
         run: terraform apply -auto-approve
 
-      # Output the AMI ID to use it in the next job
+      # Output the AMI ID and store it for the next job
       - name: Save AMI ID
-        id: ami-id
-        run: echo "::set-output name=ami-id::$(terraform output ami_id)"
+        run: |
+          echo "AMI_ID=$(terraform output -raw ami_id)" >> $GITHUB_ENV
 
   # Job 2: Create EC2 instance using the AMI from Job 1
   create-ec2-instance:
@@ -33,7 +33,7 @@ jobs:
     needs: create-ami
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
@@ -44,7 +44,7 @@ jobs:
       - name: Terraform apply to create EC2 instance
         run: |
           # Use the AMI ID from Job 1
-          echo "ami_id=${{ needs.create-ami.outputs.ami-id }}" >> terraform.tfvars
+          echo "ami_id=\"$AMI_ID\"" > terraform.tfvars
           terraform apply -auto-approve
 
       - name: Output EC2 instance public IP
