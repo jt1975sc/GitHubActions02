@@ -1,0 +1,51 @@
+name: Create EC2 Instance with Terraform
+
+on:
+  push:
+    branches:
+      - main  # Or the branch you are working on
+
+jobs:
+  # Job 1: Create AMI (Homework 6C)
+  create-ami:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform init
+        run: terraform init
+
+      - name: Terraform apply to create AMI
+        run: terraform apply -auto-approve
+
+      # Output the AMI ID to use it in the next job
+      - name: Save AMI ID
+        id: ami-id
+        run: echo "::set-output name=ami-id::$(terraform output ami_id)"
+
+  # Job 2: Create EC2 instance using the AMI from Job 1
+  create-ec2-instance:
+    runs-on: ubuntu-latest
+    needs: create-ami
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        
+      - name: Terraform init
+        run: terraform init
+
+      - name: Terraform apply to create EC2 instance
+        run: |
+          # Use the AMI ID from Job 1
+          echo "ami_id=${{ needs.create-ami.outputs.ami-id }}" >> terraform.tfvars
+          terraform apply -auto-approve
+
+      - name: Output EC2 instance public IP
+        run: terraform output ec2_public_ip
