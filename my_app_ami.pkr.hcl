@@ -12,19 +12,13 @@ locals {
 }
 
 source "amazon-ebs" "ubuntu" {
-  ##ami_name      = "my_first_ami_{{isotime '2006.01.02.15:04:05'}}"
-  ami_name = "my_first_ami_${local.timestamp}"
+  ami_name      = "my_first_ami_${local.timestamp}"
   instance_type = "t2.micro"
   region        = "${var.my_region}"
-  source_ami_filter {
-    filters = {
-      name                = "${var.source_ami_name}"
-      root-device-type    = "ebs"
-      virtualization-type = "hvm"
-    }
-    most_recent = true
-    owners      = ["374168611083"]
-  }
+
+  # Use the exact AMI ID instead of filtering by name
+  source_ami_id = "${var.source_ami_id}"
+
   ssh_username = "ubuntu"
 }
 
@@ -35,7 +29,7 @@ build {
   ]
 
   provisioner "file" {
-    source = "app_files"
+    source      = "app_files"
     destination = "/home/ubuntu/"
   }
 
@@ -47,24 +41,22 @@ build {
       "sudo apt update -y",
       "sudo apt install python3-pip -y",
       "sudo snap install redis",
-      "echo 'Install python pacakges with pip'",
+      "echo 'Install python packages with pip'",
       "sudo pip3 install -r app_files/requirements.txt",
       "echo 'Setup the my app service with systemd'",
       "sudo cp /home/ubuntu/app_files/myapp.service /etc/systemd/system/myapp.service",
       "sudo systemctl enable myapp",
     ]
   }
-
-  
-
 }
 
 variable "my_region" {
-  type = string
+  type    = string
   default = "us-west-1"
 }
 
-variable "source_ami_name" {
-  type = string
-  default = " (SupportedImages) - Docker - Ubuntu 22.04 x86_64 - 20250303-prod-kntyye27rmyvg"
+# Replace the default AMI name filter with the exact AMI ID
+variable "source_ami_id" {
+  type    = string
+  default = "ami-011a13bd4dfc45b5a"  # Replace with the actual AMI ID
 }
