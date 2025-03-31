@@ -17,9 +17,10 @@ source "amazon-ebs" "ubuntu" {
   region        = "${var.my_region}"
 
   # Provide the exact AMI ID here (make sure it's valid and exists in the region you're using)
-  source_ami = "${var.source_ami_id}"
+  source_ami    = "${var.source_ami_id}"
 
-  ssh_username = "ubuntu"
+  ssh_username  = "ubuntu"  # This is the default for Ubuntu AMIs
+  # If SSH access isn't needed, just omit keypair configurations.
 }
 
 build {
@@ -54,7 +55,6 @@ variable "my_region" {
   type    = string
   default = "us-east-1"  
 }
-
 
 variable "source_ami_id" {
   type    = string
