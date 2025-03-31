@@ -20,7 +20,7 @@ source "amazon-ebs" "ubuntu" {
   source_ami    = "ami-08b5b3a93ed654d19"
 
   ssh_username  = "ubuntu"  # Default for Ubuntu AMIs
-  communicator  = "ssh"    # Disables SSH access during the build process
+  communicator  = "ssh"    # Disables SSH access during the build process.
 }
 
 build {
