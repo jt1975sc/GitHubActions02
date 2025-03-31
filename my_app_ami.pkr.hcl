@@ -16,8 +16,8 @@ source "amazon-ebs" "ubuntu" {
   instance_type = "t2.micro"
   region        = "${var.my_region}"
 
-  # Use the exact AMI ID instead of filtering by name
-  source_ami_id = "${var.source_ami_id}"
+  # Specify the exact AMI ID here
+  source_ami = "${var.source_ami_id}"
 
   ssh_username = "ubuntu"
 }
@@ -52,10 +52,10 @@ build {
 
 variable "my_region" {
   type    = string
-  default = "us-west-1"
+  default = "us-east-1"
 }
 
-# Replace the default AMI name filter with the exact AMI ID
+# Provide the exact AMI ID in the variable
 variable "source_ami_id" {
   type    = string
   default = "ami-011a13bd4dfc45b5a"  # Replace with the actual AMI ID
