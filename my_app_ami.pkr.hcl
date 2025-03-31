@@ -16,7 +16,7 @@ source "amazon-ebs" "ubuntu" {
   instance_type = "t2.micro"
   region        = "${var.my_region}"
 
-  # Specify the exact AMI ID here
+  # Provide the exact AMI ID here (make sure it's valid and exists in the region you're using)
   source_ami = "${var.source_ami_id}"
 
   ssh_username = "ubuntu"
@@ -52,11 +52,11 @@ build {
 
 variable "my_region" {
   type    = string
-  default = "us-east-1"
+  default = "us-west-1"  # Set your region here, make sure the AMI ID exists in this region
 }
 
-# Provide the exact AMI ID in the variable
+# Replace this with the correct AMI ID that exists in your region
 variable "source_ami_id" {
   type    = string
-  default = "ami-011a13bd4dfc45b5a"  # Replace with the actual AMI ID
+  default = "ami-0123456789abcdef0"  # Replace with a valid AMI ID
 }
