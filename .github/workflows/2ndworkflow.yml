@@ -13,6 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3 
         
+      - name: Sync system time
+        run: sudo apt-get install ntpdate && sudo ntpdate -u pool.ntp.org  # Sync system time
+      
       - name: Set up AWS credentials
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -22,46 +25,4 @@ jobs:
           echo "Setting up AWS credentials"
           
       - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
-
-      - name: Terraform init
-        run: terraform init
-
-      - name: Terraform apply to create AMI
-        run: terraform apply -auto-approve
-
-      # Output the AMI ID and store it for the next job
-      - name: Save AMI ID
-        run: |
-          echo "AMI_ID=$(terraform output -raw ami_id)" >> $GITHUB_ENV
-
-  # Job 2: Create EC2 instance using the AMI from Job 1
-  create-ec2-instance:
-    runs-on: ubuntu-latest
-    needs: create-ami
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        
-      - name: Set up AWS credentials
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-east-1  # Update to your region
-        run: |
-          echo "Setting up AWS credentials"
-          
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
-        
-      - name: Terraform init
-        run: terraform init
-
-      - name: Terraform apply to create EC2 instance
-        run: |
-          # Use the AMI ID from Job 1
-          echo "ami_id=\"$AMI_ID\"" > terraform.tfvars
-          terraform apply -auto-approve
-
-      - name: Output EC2 instance public IP
-        run: terraform output ec2_public_ip
+        uses: hashicorp/setup-
