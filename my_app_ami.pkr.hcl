@@ -19,8 +19,8 @@ source "amazon-ebs" "ubuntu" {
   # Provide the exact AMI ID here (make sure it's valid and exists in the region you're using)
   source_ami    = "${var.source_ami_id}"
 
-  ssh_username  = "ubuntu"  # This is the default for Ubuntu AMIs
-  # If SSH access isn't needed, just omit keypair configurations.
+  ssh_username  = "ubuntu"  # Default for Ubuntu AMIs
+  communicator  = "none"    # Disables SSH access during the build process
 }
 
 build {
