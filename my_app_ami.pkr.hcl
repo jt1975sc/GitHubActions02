@@ -52,11 +52,11 @@ build {
 
 variable "my_region" {
   type    = string
-  default = "us-west-1"  # Set your region here, make sure the AMI ID exists in this region
+  default = "us-west-1"  
 }
 
-# Replace this with the correct AMI ID that exists in your region
+
 variable "source_ami_id" {
   type    = string
-  default = "ami-0123456789abcdef0"  # Replace with a valid AMI ID
+  default = "ami-011a13bd4dfc45b5a"  
 }
