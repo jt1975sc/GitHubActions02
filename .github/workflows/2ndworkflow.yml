@@ -13,8 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3 
         
-      - name: Sync system time
-        run: sudo apt-get install ntpdate && sudo ntpdate -u pool.ntp.org  # Sync system time
+- name: Sync system time
+  run: sudo apt-get install ntpdate && sudo ntpdate time.nist.gov
+
       
       - name: Set up AWS credentials
         env:
