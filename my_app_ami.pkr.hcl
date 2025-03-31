@@ -61,7 +61,7 @@ build {
 
 variable "my_region" {
   type = string
-  default = "us-west-1"
+  default = "us-east-1"
 }
 
 variable "source_ami_name" {
