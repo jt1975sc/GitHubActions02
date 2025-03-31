@@ -66,5 +66,5 @@ variable "my_region" {
 
 variable "source_ami_name" {
   type = string
-  default = "us-west-1 image for Ubuntu_22.04"
+  default = " (SupportedImages) - Docker - Ubuntu 22.04 x86_64 - 20250303-prod-kntyye27rmyvg"
 }
