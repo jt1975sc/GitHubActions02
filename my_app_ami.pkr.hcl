@@ -58,5 +58,5 @@ variable "my_region" {
 
 variable "source_ami_id" {
   type    = string
-  default = "ami-0eb6a0dbedb9e8e6e"  
+  default = "ami-032470fdbf575c3c9"  
 }
