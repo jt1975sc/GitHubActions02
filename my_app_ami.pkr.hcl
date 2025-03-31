@@ -65,6 +65,6 @@ variable "my_region" {
 }
 
 variable "source_ami_name" {
-  type    = string
-  default = "ubuntu-22.04*"  # AMI name filter to match Ubuntu 22.04 in us-east-1
+  type = string
+  default = "us-west-1 image for Ubuntu_22.04"
 }
