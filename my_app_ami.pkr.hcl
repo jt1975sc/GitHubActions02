@@ -17,10 +17,10 @@ source "amazon-ebs" "ubuntu" {
   region        = "${var.my_region}"
 
   # Provide the exact AMI ID here (make sure it's valid and exists in the region you're using)
-  source_ami    = "${var.source_ami_id}"
+  source_ami    = "ami-08b5b3a93ed654d19"
 
   ssh_username  = "ubuntu"  # Default for Ubuntu AMIs
-  communicator  = "none"    # Disables SSH access during the build process
+  communicator  = "ssh"    # Disables SSH access during the build process
 }
 
 build {
