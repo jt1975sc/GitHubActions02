@@ -23,7 +23,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1  # Update to your region
         run: |
-          echo "Setting up AWS credentials"
+          echo "Setting up AWS CRedentials"
           
       - name: Set up Terraform
         uses: hashicorp/setup-
